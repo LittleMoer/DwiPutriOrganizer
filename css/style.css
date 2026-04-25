@@ -877,11 +877,11 @@ footer {
     .nav-links, .navbar .btn-primary { display: none; }
     .mobile-menu-btn { display: block; }
     
-    /* Ubah grid ganda menjadi 1 kolom di HP */
-    .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
-    .bank-grid { grid-template-columns: 1fr; }
-    .pricing-grid { grid-template-columns: 1fr; }
-    .gallery-grid { grid-template-columns: 1fr; }
+    /* Ubah grid ganda menjadi 1 kolom di HP dengan jarak vertikal lebih lebar */
+    .grid-2 { grid-template-columns: 1fr; gap: 3.5rem; }
+    .bank-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .pricing-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .gallery-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     
     .hero { padding: 140px 0 60px; min-height: auto; }
     .section { padding: 60px 0; }
