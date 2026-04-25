@@ -79,6 +79,46 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => {
         observer.observe(el);
     });
+
+    // 5. Background Music Logic
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+    const musicIcon = musicBtn.querySelector('i');
+
+    let isPlaying = false;
+
+    // Set initial volume
+    music.volume = 0.5;
+
+    const toggleMusic = () => {
+        if (isPlaying) {
+            music.pause();
+            musicBtn.classList.add('paused');
+            musicIcon.className = 'fas fa-volume-mute';
+        } else {
+            music.play().catch(err => console.log("Autoplay blocked, waiting for interaction"));
+            musicBtn.classList.remove('paused');
+            musicIcon.className = 'fas fa-music';
+        }
+        isPlaying = !isPlaying;
+    };
+
+    musicBtn.addEventListener('click', toggleMusic);
+
+    // Auto-play on first interaction (browser requirement)
+    const startMusicOnInteraction = () => {
+        if (!isPlaying) {
+            toggleMusic();
+            // Remove listeners after first successful start
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('scroll', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+        }
+    };
+
+    document.addEventListener('click', startMusicOnInteraction);
+    document.addEventListener('scroll', startMusicOnInteraction);
+    document.addEventListener('touchstart', startMusicOnInteraction);
 });
 
 // Function to copy text to clipboard
