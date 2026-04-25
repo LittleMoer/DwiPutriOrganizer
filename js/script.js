@@ -95,10 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
             music.pause();
             musicBtn.classList.add('paused');
             musicIcon.className = 'fas fa-volume-mute';
+            console.log("Music paused");
         } else {
-            music.play().catch(err => console.log("Autoplay blocked, waiting for interaction"));
-            musicBtn.classList.remove('paused');
-            musicIcon.className = 'fas fa-music';
+            music.play().then(() => {
+                musicBtn.classList.remove('paused');
+                musicIcon.className = 'fas fa-music';
+                console.log("Music playing successfully");
+            }).catch(err => {
+                console.error("Playback failed:", err);
+            });
         }
         isPlaying = !isPlaying;
     };
