@@ -90,39 +90,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set initial volume
     music.volume = 0.5;
 
-    const toggleMusic = () => {
-        if (isPlaying) {
-            music.pause();
-            musicBtn.classList.add('paused');
-            musicIcon.className = 'fas fa-volume-mute';
-            console.log("Music paused");
-        } else {
-            music.play().then(() => {
-                musicBtn.classList.remove('paused');
-                musicIcon.className = 'fas fa-music';
-                console.log("Music playing successfully");
-            }).catch(err => {
-                console.error("Playback failed:", err);
-            });
-        }
-        isPlaying = !isPlaying;
+    const playMusic = () => {
+        music.play().then(() => {
+            isPlaying = true;
+            musicBtn.classList.remove('paused');
+            musicIcon.className = 'fas fa-music';
+            console.log("Music playing successfully");
+        }).catch(err => {
+            console.error("Playback failed:", err);
+        });
     };
 
-    musicBtn.addEventListener('click', toggleMusic);
+    const pauseMusic = () => {
+        music.pause();
+        isPlaying = false;
+        musicBtn.classList.add('paused');
+        musicIcon.className = 'fas fa-volume-mute';
+        console.log("Music paused");
+    };
 
-    // Auto-play on first interaction (browser requirement)
+    const toggleMusic = () => {
+        if (isPlaying) {
+            pauseMusic();
+        } else {
+            playMusic();
+        }
+    };
+
+    musicBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent trigger from startMusicOnInteraction
+        toggleMusic();
+    });
+
+    // Auto-play on first interaction (Mobile focus: click/touchstart only)
     const startMusicOnInteraction = () => {
         if (!isPlaying) {
-            toggleMusic();
-            // Remove listeners after first successful start
+            playMusic();
+            // Remove listeners after interaction attempt
             document.removeEventListener('click', startMusicOnInteraction);
-            document.removeEventListener('scroll', startMusicOnInteraction);
             document.removeEventListener('touchstart', startMusicOnInteraction);
         }
     };
 
+    // Use only click and touchstart for mobile compliance
     document.addEventListener('click', startMusicOnInteraction);
-    document.addEventListener('scroll', startMusicOnInteraction);
     document.addEventListener('touchstart', startMusicOnInteraction);
 });
 
