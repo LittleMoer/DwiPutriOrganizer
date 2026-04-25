@@ -93,3 +93,30 @@ window.copyToClipboard = function(text, btnElement) {
         console.error('Failed to copy: ', err);
     });
 };
+
+// Function to send form data to WhatsApp
+window.sendToWhatsapp = function() {
+    const nama = document.getElementById('wa-nama').value;
+    const kontak = document.getElementById('wa-kontak').value;
+    const tanggal = document.getElementById('wa-tanggal').value || '-';
+    const paket = document.getElementById('wa-paket').value || '-';
+    const pesan = document.getElementById('wa-pesan').value || '-';
+
+    const whatsappNumber = "6282352842990";
+    
+    const textMessage = `Halo Dwi Putri Organizer, saya berminat untuk konsultasi:
+    
+*Nama:* ${nama}
+*Kontak:* ${kontak}
+*Tanggal & Lokasi:* ${tanggal}
+*Pilihan Paket:* ${paket}
+*Pesan Tambahan:* ${pesan}
+
+Mohon informasi lebih lanjut. Terima kasih!`;
+
+    const encodedText = encodeURIComponent(textMessage);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
+
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+};
