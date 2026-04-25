@@ -35,12 +35,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Simple Mobile Menu Toggle Alert
-    // In a real project, this would toggle a mobile menu class
+    // 3. Mobile Menu Toggle
     const mobileBtn = document.querySelector('.mobile-menu-btn');
-    if (mobileBtn) {
+    const navLinks = document.querySelector('.nav-links');
+    const menuIcon = mobileBtn.querySelector('i');
+
+    if (mobileBtn && navLinks) {
         mobileBtn.addEventListener('click', () => {
-            alert('Menu navigasi versi mobile akan ditampilkan di sini.');
+            navLinks.classList.toggle('active');
+            
+            // Toggle icon bars to times (X)
+            if (navLinks.classList.contains('active')) {
+                menuIcon.className = 'fas fa-times';
+            } else {
+                menuIcon.className = 'fas fa-bars';
+            }
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.className = 'fas fa-bars';
+            });
         });
     }
 
@@ -80,15 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // 5. Background Music Logic
-    const music = document.getElementById('bg-music');
+    // 5. Background Music Logic (Pure JS Implementation)
+    const music = new Audio('wedding-music.mp3');
+    music.loop = true;
+    music.volume = 0.5;
+
     const musicBtn = document.getElementById('music-toggle');
     const musicIcon = musicBtn.querySelector('i');
-
     let isPlaying = false;
-
-    // Set initial volume
-    music.volume = 0.5;
 
     const playMusic = () => {
         music.play().then(() => {
@@ -96,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             musicBtn.classList.remove('paused');
             musicIcon.className = 'fas fa-music';
         }).catch(err => {
-            console.log("Play attempt failed, waiting for user gesture");
+            console.log("Audio play blocked/failed:", err);
         });
     };
 
@@ -111,25 +127,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    musicBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMusic();
-    });
+    if (musicBtn) {
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMusic();
+        });
+    }
 
-    // Mobile: Listen for ANY touch or click to start music
-    const handleFirstInteraction = () => {
+    // Capture the very first user interaction to start audio
+    const initAudio = () => {
         if (!isPlaying) {
             playMusic();
-            // Remove listeners
-            ['click', 'touchstart', 'mousedown'].forEach(event => {
-                document.removeEventListener(event, handleFirstInteraction);
-            });
+            // Clean up listeners
+            window.removeEventListener('click', initAudio);
+            window.removeEventListener('touchstart', initAudio);
         }
     };
 
-    ['click', 'touchstart', 'mousedown'].forEach(event => {
-        document.addEventListener(event, handleFirstInteraction, { once: true });
-    });
+    window.addEventListener('click', initAudio, { once: true });
+    window.addEventListener('touchstart', initAudio, { once: true });
 });
 
 // Function to copy text to clipboard
