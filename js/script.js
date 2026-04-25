@@ -91,13 +91,17 @@ document.addEventListener('DOMContentLoaded', () => {
     music.volume = 0.5;
 
     const playMusic = () => {
+        music.muted = false; // Penting: Buka suara yang tadinya di-mute
         music.play().then(() => {
             isPlaying = true;
             musicBtn.classList.remove('paused');
             musicIcon.className = 'fas fa-music';
-            console.log("Music playing successfully");
+            console.log("Music playing (unmuted) successfully");
         }).catch(err => {
             console.error("Playback failed:", err);
+            // Coba lagi dengan paksa jika gagal
+            music.muted = false;
+            music.play();
         });
     };
 
