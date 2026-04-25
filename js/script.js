@@ -91,54 +91,45 @@ document.addEventListener('DOMContentLoaded', () => {
     music.volume = 0.5;
 
     const playMusic = () => {
-        music.muted = false; // Penting: Buka suara yang tadinya di-mute
         music.play().then(() => {
             isPlaying = true;
             musicBtn.classList.remove('paused');
             musicIcon.className = 'fas fa-music';
-            console.log("Music playing (unmuted) successfully");
         }).catch(err => {
-            console.error("Playback failed:", err);
-            // Coba lagi dengan paksa jika gagal
-            music.muted = false;
-            music.play();
+            console.log("Play attempt failed, waiting for user gesture");
         });
-    };
-
-    const pauseMusic = () => {
-        music.pause();
-        isPlaying = false;
-        musicBtn.classList.add('paused');
-        musicIcon.className = 'fas fa-volume-mute';
-        console.log("Music paused");
     };
 
     const toggleMusic = () => {
         if (isPlaying) {
-            pauseMusic();
+            music.pause();
+            isPlaying = false;
+            musicBtn.classList.add('paused');
+            musicIcon.className = 'fas fa-volume-mute';
         } else {
             playMusic();
         }
     };
 
     musicBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent trigger from startMusicOnInteraction
+        e.stopPropagation();
         toggleMusic();
     });
 
-    // Auto-play on first interaction (Mobile focus: click/touchstart only)
-    const startMusicOnInteraction = () => {
+    // Mobile: Listen for ANY touch or click to start music
+    const handleFirstInteraction = () => {
         if (!isPlaying) {
             playMusic();
-            // Remove listeners after interaction attempt
-            document.removeEventListener('click', startMusicOnInteraction);
-            document.removeEventListener('touchstart', startMusicOnInteraction);
+            // Remove listeners
+            ['click', 'touchstart', 'mousedown'].forEach(event => {
+                document.removeEventListener(event, handleFirstInteraction);
+            });
         }
     };
 
-    // Use only click and touchstart for mobile compliance
-    document.addEventListener('click', startMusicOnInteraction);
-    document.addEventListener('touchstart', startMusicOnInteraction);
+    ['click', 'touchstart', 'mousedown'].forEach(event => {
+        document.addEventListener(event, handleFirstInteraction, { once: true });
+    });
 });
 
 // Function to copy text to clipboard
