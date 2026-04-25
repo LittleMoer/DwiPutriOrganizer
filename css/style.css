@@ -288,9 +288,9 @@ ul {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100%;        
     height: 100%;
-    background: url('../img/sampul%20dwi.jpg') center/cover no-repeat;
+    background: url('../img/sampul.jpeg') center/cover no-repeat;
     z-index: 0;
 }
 
@@ -849,6 +849,11 @@ footer {
     box-shadow: 0 0 0 2px rgba(139, 15, 47, 0.2);
 }
 
+.contact-info, .about-content {
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--primary);
+}
+
 .contact-list {
     margin: 1.5rem 0 0;
     padding-left: 0;
@@ -877,11 +882,11 @@ footer {
     .nav-links, .navbar .btn-primary { display: none; }
     .mobile-menu-btn { display: block; }
     
-    /* Ubah grid ganda menjadi 1 kolom di HP dengan jarak vertikal lebih lebar */
-    .grid-2 { grid-template-columns: 1fr; gap: 3.5rem; }
-    .bank-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    .pricing-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .gallery-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    /* Ubah grid menjadi flex column agar dipastikan selalu menyusun rata ke bawah di semua tipe HP */
+    .grid-2 { display: flex; flex-direction: column; gap: 3.5rem; width: 100%; }
+    .bank-grid { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
+    .pricing-grid { display: flex; flex-direction: column; gap: 2.5rem; width: 100%; }
+    .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
     
     .hero { padding: 140px 0 60px; min-height: auto; }
     .section { padding: 60px 0; }
@@ -889,6 +894,9 @@ footer {
     /* Penyesuaian Footer */
     .footer-inner { flex-direction: column; text-align: center; gap: 20px; }
     .foot-right { align-items: center !important; }
+    
+    /* Kurangi padding sisi agar tidak makan tempat di layar kecil */
+    .contact-info, .about-content { padding-left: 1rem; border-left-width: 2px; }
 }
 
 @media (max-width: 480px) {
