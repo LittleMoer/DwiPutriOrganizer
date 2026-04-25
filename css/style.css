@@ -237,15 +237,15 @@ ul {
     font-size: clamp(2.5rem, 6vw, 5rem);
     line-height: 1.1;
     margin-bottom: 20px;
-    /* Efek glow putih yang lebih halus */
-    text-shadow: 0 0 8px rgba(255,255,255,0.4), 0 0 15px rgba(255,255,255,0.2);
+    /* Efek shadow hitam kuat agar sangat kontras + glow putih halus */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(255,255,255,0.4), 0 0 20px rgba(0,0,0,0.8);
 }
 
 .hero-content h1 span {
     color: var(--primary);
     font-style: italic;
-    /* Efek glow putih halus pada span */
-    text-shadow: 0 0 8px rgba(255,255,255,0.4), 0 0 15px rgba(255,255,255,0.2);
+    /* Kombinasi kontras dan glow pada span */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(255,255,255,0.4), 0 0 20px rgba(0,0,0,0.8);
 }
 
 .hero-content p {
@@ -255,8 +255,8 @@ ul {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    /* Efek glow putih sangat tipis untuk paragraf */
-    text-shadow: 0 0 5px rgba(255,255,255,0.3), 0 0 10px rgba(255,255,255,0.1);
+    /* Teks paragraf dengan shadow tebal agar selalu terbaca jelas */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8), 0 0 5px rgba(255,255,255,0.2);
 }
 
 .hero-buttons {
@@ -300,7 +300,8 @@ ul {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(12, 12, 13, 0.3) 0%, rgba(12, 12, 13, 0.7) 60%, var(--bg) 100%);
+    /* Menggelapkan overlay atas agar teks putih lebih kontras dan terbaca jelas */
+    background: linear-gradient(to bottom, rgba(12, 12, 13, 0.65) 0%, rgba(12, 12, 13, 0.85) 60%, var(--bg) 100%);
     z-index: 0;
 }
 
@@ -865,32 +866,40 @@ footer {
     width: 100px;
 }
 
-/* Responsive Styles */
-@media (max-width: 980px) {
-    .hero-container { flex-direction: column; text-align: center; }
-    .hero-content p { margin: 20px auto 35px; }
-    .hero-buttons { justify-content: center; }
-    .stats { justify-content: center; }
-    .hero-image { width: 100%; max-width: 500px; height: 350px; }
-    .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
-    .footer-brand { grid-column: 1 / -1; }
-    .footer-brand p { max-width: 100%; }
+/* ====== Responsive Styles ====== */
+@media (max-width: 1024px) {
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-content h1 { font-size: clamp(2rem, 5vw, 4rem); }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
     .nav-links, .navbar .btn-primary { display: none; }
     .mobile-menu-btn { display: block; }
-    .hero { padding: 120px 0 60px; min-height: auto; }
-    .services { padding: 60px 0; }
-    .stats { flex-wrap: wrap; gap: 20px; }
-    .stat-item { flex: 1; min-width: 100px; }
-    .footer-content { grid-template-columns: 1fr; gap: 30px; }
+    
+    /* Ubah grid ganda menjadi 1 kolom di HP */
+    .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
+    .bank-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    
+    .hero { padding: 140px 0 60px; min-height: auto; }
+    .section { padding: 60px 0; }
+    
+    /* Penyesuaian Footer */
+    .footer-inner { flex-direction: column; text-align: center; gap: 20px; }
+    .foot-right { align-items: center !important; }
 }
 
 @media (max-width: 480px) {
-    .hero-buttons { flex-direction: column; gap: 10px; }
-    .hero-image { height: 250px; }
-    .image-glass-card { padding: 20px; width: 90%; }
-    .image-glass-card i { font-size: 2rem; }
-    .image-glass-card h3 { font-size: 1.3rem; }
+    /* Tombol jadi memanjang dan rapi ke bawah */
+    .hero-buttons { flex-direction: column; gap: 15px; width: 100%; }
+    .hero-buttons .btn-primary, .hero-buttons .btn-secondary { width: 100%; }
+    
+    .section-header h2 { font-size: 2rem; }
+    .gallery-subtitle { font-size: 1.5rem; }
+    .note-card, .payment-terms, .form { padding: 1.2rem; }
+    
+    /* Supaya teks kontak rapi */
+    .contact-list strong { width: 90px; }
 }
