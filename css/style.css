@@ -466,6 +466,35 @@ footer {
     font-size: 0.95rem;
 }
 
+.nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: rgba(12, 12, 13, 0.98);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 100px;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition);
+    z-index: 1000;
+    border-left: 1px solid var(--stroke);
+    overflow-y: auto;
+}
+
+.nav-links a {
+    font-size: 1.1rem;
+    width: 85%;
+    text-align: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
 .social-links {
     display: flex;
     gap: 10px;
@@ -876,6 +905,45 @@ footer {
     width: 100px;
 }
 
+/* ====== Music Control Button ====== */
+.music-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(139, 15, 47, 0.4);
+    transition: var(--transition);
+    animation: pulse-music 2s infinite;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    background: var(--primary-2);
+}
+
+.music-btn.paused {
+    background: #3f3f46;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: none;
+}
+
+@keyframes pulse-music {
+    0% { box-shadow: 0 0 0 0 rgba(139, 15, 47, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(139, 15, 47, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 15, 47, 0); }
+}
+
 /* ====== Responsive Styles ====== */
 @media (max-width: 1024px) {
     .pricing-grid { grid-template-columns: repeat(2, 1fr); }
@@ -884,9 +952,43 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .nav-links, .navbar .btn-primary { display: none; }
-    .mobile-menu-btn { display: block; }
+    .navbar .btn-primary { display: none; }
+    .mobile-menu-btn { display: block; z-index: 1001; }
     
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: rgba(12, 12, 13, 0.98);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 100px;
+        align-items: center;
+        gap: 1rem;
+        transition: var(--transition);
+        z-index: 1000;
+        border-left: 1px solid var(--stroke);
+        overflow-y: auto;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a {
+        font-size: 1.1rem;
+        width: 85%;
+        text-align: center;
+        padding: 0.8rem;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        color: #fff;
+    }
+
     /* Ubah grid menjadi flex column agar dipastikan selalu menyusun rata ke bawah di semua tipe HP */
     .grid-2 { display: flex; flex-direction: column; gap: 3.5rem; width: 100%; }
     .bank-grid { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
@@ -896,16 +998,15 @@ footer {
     .hero { padding: 140px 0 60px; min-height: auto; }
     .section { padding: 60px 0; }
     
-    /* Penyesuaian Footer */
     .footer-inner { flex-direction: column; text-align: center; gap: 20px; }
     .foot-right { align-items: center !important; }
     
-    /* Kurangi padding sisi agar tidak makan tempat di layar kecil */
     .contact-info, .about-content { padding-left: 1rem; border-left-width: 2px; }
+
+    .music-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
 }
 
 @media (max-width: 480px) {
-    /* Tombol jadi memanjang dan rapi ke bawah */
     .hero-buttons { flex-direction: column; gap: 15px; width: 100%; }
     .hero-buttons .btn-primary, .hero-buttons .btn-secondary { width: 100%; }
     
@@ -913,6 +1014,5 @@ footer {
     .gallery-subtitle { font-size: 1.5rem; }
     .note-card, .payment-terms, .form { padding: 1.2rem; }
     
-    /* Supaya teks kontak rapi */
     .contact-list strong { width: 90px; }
 }
